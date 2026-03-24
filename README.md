@@ -1,4 +1,4 @@
-# Project 2: AI-Powered Air Quality Analysis
+# AskVigil - a Scam Detector website app.
 
 Welcome to AskVigil by SleepUnderflow. We are using a containerized Python stack. This means if it runs on your laptop in Docker, it **will** work on the Oracle server.
 
