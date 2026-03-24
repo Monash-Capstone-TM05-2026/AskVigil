@@ -16,9 +16,12 @@ jobs:
             cd ~/AskVigil
             # If it's the very first time, the robot might need to clone
             if [ ! -d ".git" ]; then
-              git clone https://github.com/Monash-Capstone-TM05-2026/AskVigil.git .
+              git init
+              git remote add origin https://github.com/${{ github.repository }}.git
+              git fetch
+              git checkout -f main
             else
               git pull origin main
             fi
             # Fire up the containers
-            docker-compose up -d --build
+            docker compose up -d --build
