@@ -23,5 +23,5 @@ jobs:
             else
               git pull origin main
             fi
-            # Fire up the containers
-            docker compose up -d --build
+            # Force Docker to ONLY use the base file, ignoring the local GPU override
+            docker compose -f docker-compose.yml up -d --build
