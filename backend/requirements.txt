@@ -1,7 +1,7 @@
 fastapi[all]
+uvicorn
 sqlalchemy
 psycopg2-binary
 pandas
 numpy
-torch
-transformers
+sentence-transformers

@@ -42,4 +42,3 @@ npm_data/
 npm_letsencrypt/
 ai_models/
 *.log
-docker-compose.override.yml
