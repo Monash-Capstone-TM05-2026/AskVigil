@@ -1,0 +1,45 @@
+# --- IDE / OS ---
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# --- Environment Secrets (CRITICAL) ---
+.env
+.env.local
+.env.*.local
+*.key
+*.pub
+
+# --- Backend (Python/FastAPI) ---
+backend/__pycache__/
+backend/*.py[cod]
+backend/*$py.class
+backend/*.pyc
+backend/.venv/
+backend/venv/
+backend/env/
+backend/.pytest_cache/
+backend/.mypy_cache/
+
+# --- AI Models (Don't push 500MB+ to Git) ---
+ai_models/
+backend/models/
+
+# --- Frontend (React) ---
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.eslintcache
+frontend/.pnp
+frontend/.pnp.js
+frontend/coverage/
+frontend/npm-debug.log*
+
+# --- Database & Docker ---
+postgres_data/
+npm_data/
+npm_letsencrypt/
+ai_models/
+*.log
+docker-compose.override.yml

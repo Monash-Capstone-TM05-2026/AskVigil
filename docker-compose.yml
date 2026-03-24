@@ -1,0 +1,53 @@
+services:
+  # 1. The Database (Using pgvector for AI capability)
+  db:
+    image: pgvector/pgvector:pg16
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. The FastAPI Backend
+  backend:
+    build: ./backend
+    volumes:
+      - ./ai_models:/app/models # The model lives here on the server
+    restart: always
+    environment:
+      # We use the 'db' service name as the hostname
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      MODEL_PATH: /app/models/distilbert
+    depends_on:
+      - db
+    # Uncomment only to test without Nginx
+    ports:
+      - "8000:8000"
+
+  # 3. The React Frontend
+  frontend:
+    build: ./frontend
+    restart: always
+    # Uncomment only to test without Nginx
+    ports:
+      - "3000:80" # Maps React (Nginx port 80) to server port 3000
+    depends_on:
+      - backend
+    mem_limit: 2048m
+
+  # 4. Nginx Proxy Manager (Your SSL/DuckDNS "Manager")
+  nginx-proxy:
+    image: "jc21/nginx-proxy-manager:latest"
+    restart: always
+    ports:
+      - "80:80" # Public HTTP
+      - "81:81" # Management UI (Used to set up DuckDNS)
+      - "443:443" # Public HTTPS
+    volumes:
+      - ./npm_data:/data
+      - ./npm_letsencrypt:/etc/letsencrypt
+
+volumes:
+  postgres_data:
