@@ -1,24 +1,38 @@
 from fastapi import FastAPI
-from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
+from sentence_transformers import SentenceTransformer
 import os
 
-# This path matches the 'volumes' we put in docker-compose.yml
-MODEL_PATH = os.getenv("MODEL_PATH", "/app/models/distilbert")
+# New path for the multilingual model
+MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
+MODEL_PATH = os.getenv("MODEL_PATH", f"/app/models/{MODEL_NAME}")
 
 def load_model():
-    if os.path.exists(MODEL_PATH):
+    if os.path.isdir(MODEL_PATH) and os.listdir(MODEL_PATH):
         # Load from the local folder (Fast!)
-        tokenizer = DistilBertTokenizer.from_pretrained(MODEL_PATH)
-        model = DistilBertForSequenceClassification.from_pretrained(MODEL_PATH)
+        print(f"Loading {MODEL_NAME} from local storage...")
+        model = SentenceTransformer(MODEL_PATH)
     else:
-        # If it's the very first time, download it and save it to the volume
-        tokenizer = DistilBertTokenizer.from_pretrained("distilbert-base-uncased")
-        model = DistilBertForSequenceClassification.from_pretrained("distilbert-base-uncased")
-        tokenizer.save_pretrained(MODEL_PATH)
-        model.save_pretrained(MODEL_PATH)
-    return tokenizer, model
+        # First time: Download and save to the volume
+        print(f"Downloading {MODEL_NAME} (this may take a few minutes)...")
+        model = SentenceTransformer(MODEL_NAME)
+        model.save(MODEL_PATH)
+        print(f"Model saved to {MODEL_PATH}")
+    return model
+
+# To use it:
+# model = load_model()
+# embeddings = model.encode(["Eh boss, tapau satu!", "I am hungry"])
 
 app = FastAPI()
+
+# Add this block immediately after creating the 'app'
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://project2.duckdns.org", "http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/api/health")
 def health_check():

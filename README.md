@@ -46,6 +46,7 @@ Welcome to AskVigil by SleepUnderflow. We are using a containerized Python stack
     * **Local Frontend:** [http://localhost:3000](http://localhost:3000)
     * **Local API Docs:** [http://localhost:8000/docs](http://localhost:8000/docs) (FastAPI generates this automatically!)
     * **Production:** [https://sleepunderflow.duckdns.org]
+    * **Docs:** Go to [https://sleepunderflow.duckdns.org] and append /api, /docs, /redoc, or /openapi.json for for whichever ones you want.
 
 ---
 
