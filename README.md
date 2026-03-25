@@ -25,6 +25,8 @@ Welcome to AskVigil by SleepUnderflow. We are using a containerized Python stack
 ### 2. Setup
 1.  Clone the repo.
 2.  Create a `.env` file in the root directory (see the lead for the template).
+* **Update**: When you open the project, you should see a prompt to "Reopen in Container?" Say yes, and you don't need to do step 3 and 4.
+
 3.  Fire up the stack:
     ```bash
     docker-compose up --build
@@ -37,12 +39,13 @@ Welcome to AskVigil by SleepUnderflow. We are using a containerized Python stack
     docker compose up --build
     ```
     * **Database:** The pgvector extension and embeddings table are pre-configured. Just start the containers and start querying.
+
 5.  Production (Oracle Cloud)
     * **Deployment:** Simply git push origin main.
     * **CI/CD:** GitHub Actions will automatically build and deploy to the Oracle server.
     * **Secrets:** Production secrets are managed on the server's .env. Do not push your local .env to Git.
 
-5.  **Verification:**
+6.  **Verification:**
     * **Local Frontend:** [http://localhost:3000](http://localhost:3000)
     * **Local API Docs:** [http://localhost:8000/docs](http://localhost:8000/docs) (FastAPI generates this automatically!)
     * **Production:** [https://sleepunderflow.duckdns.org]

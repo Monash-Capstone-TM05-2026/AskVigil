@@ -1,4 +1,5 @@
 import pandas as pd
+from tqdm import tqdm
 from main import load_model, save_to_db # Reuse your existing logic
 
 def run_import(file_path: str, category: str):
@@ -14,13 +15,14 @@ def run_import(file_path: str, category: str):
     content_list = df['text'].dropna().astype(str).tolist()
     
     # 3. Process in batches to save memory (Important for Oracle Free Tier)
-    batch_size = 100
-    for i in range(0, len(content_list), batch_size):
+    batch_size = 64 # Smaller batches are better for monitoring
+    
+    # The 'tqdm' wrapper creates the visual bar
+    for i in tqdm(range(0, len(content_list), batch_size), desc="Vectorizing Dataset"):
         batch = content_list[i : i + batch_size]
-        print(f"Processing batch {i//batch_size + 1} ({len(batch)} rows)...")
         save_to_db(batch, category)
         
-    print("✅ Import Complete!")
+    print(f"✅ Successfully imported {len(content_list)} rows into category: {category}")
 
 if __name__ == "__main__":
     # Example: python import_data.py my_dataset.csv "Manglish-Corpus"

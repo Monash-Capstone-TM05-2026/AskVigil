@@ -2,6 +2,7 @@ fastapi[all]
 uvicorn
 sqlalchemy
 psycopg2-binary
+tqdm
 pandas
 numpy
 sentence-transformers

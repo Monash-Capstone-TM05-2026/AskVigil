@@ -2,6 +2,11 @@ name: Deploy to Oracle Cloud
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - ".devcontainer/**"
+      - ".gitignore"
+      - "README.md"
+      - "docs/**"
 jobs:
   deploy:
     runs-on: ubuntu-latest

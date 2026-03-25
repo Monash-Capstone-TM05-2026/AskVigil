@@ -1,0 +1,23 @@
+{
+    "name": "AskVigil",
+    "dockerComposeFile": [
+        "../docker-compose.yml",
+        "../docker-compose.override.yml"
+    ],
+    "service": "backend", // This is the container where they will spend their time coding
+    "workspaceFolder": "/app",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylint",
+                "ms-azuretools.vscode-docker",
+                "njpwerner.autodocstring",
+                "esbenp.prettier-vscode",
+                "dbaeumer.vscode-eslint"
+            ]
+        }
+    },
+    "remoteUser": "root",
+    "postCreateCommand": "pip install --no-cache-dir -r requirements.txt"
+}
